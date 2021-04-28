@@ -57,10 +57,6 @@ import Webcam from "react-webcam";
         window.URL.revokeObjectURL(url);
         setRecordedChunks([]);
       }
-
- 
-
-
     }, [recordedChunks]);
 
 
@@ -72,7 +68,7 @@ import Webcam from "react-webcam";
       //console.log(props.io.emit(imageSrc));
       props.io.emit("getFrame", video)
 
-      });
+    });
     
 
 
