@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
   const Video = (props) => {
     const webcamRef = React.useRef(null);
     const mediaRecorderRef = React.useRef(null);
-    const [capturing, setCapturing] = React.useState(false);
+    const [capturing, setCapturing] = React.useState(true);
     const [recordedChunks, setRecordedChunks] = React.useState([]);
   
     const handleStartCaptureClick = React.useCallback(() => {

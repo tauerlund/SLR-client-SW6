@@ -9,7 +9,8 @@ function App() {
   const [response, setResponse] = useState("");
   const socket = openSocket('http://localhost:5000');
   const [mode, setMode] = useState(true); 
-  const [lock, setLock] = useState(false); 
+  const [lock, setLock] = useState(false);
+  const [label, setLabel] = useState("")
 
 
   useEffect(() => {
@@ -38,8 +39,15 @@ function App() {
       //const newData = {...response, data}
       //setResponse(newData)
     })
+
   }, []); // socket
-  
+
+  useEffect(() => {
+    socket.on("label", data => {
+      setLabel(data)
+    })
+  }, [])
+
   socket.on('disconnect', () => {
     socket.open();
   });
@@ -55,7 +63,7 @@ function App() {
       <button onClick={changeMode}>Switch Mode</button>      
       {mode ?
         <WebcamCapture Lock={lock} changeLock={() => {setLock(true)}} 
-        io={socket} />
+        io={socket} response={response.data} label={label.data} />
         :
         <div>
           <Video io={socket} />

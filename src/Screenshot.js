@@ -9,12 +9,12 @@ import Webcam from "react-webcam";
   
   const WebcamCapture = (props) => {
 
-    
+
 
     useEffect(() => {
       const interval = setInterval(() => {
           capture()      
-      }, 1000);
+      }, 1);
       return () => clearInterval(interval);
     }, [])
     
@@ -44,7 +44,8 @@ import Webcam from "react-webcam";
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
         />
-
+        <h2>{props.response}</h2>
+        <h1>{props.label}</h1>
         <button onClick={capture}>Capture photo</button>
       </>
     )
