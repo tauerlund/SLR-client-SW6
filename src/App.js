@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { Route, Switch } from 'react-router-dom';
 import openSocket from "socket.io-client";
 import './App.css';
 import WebcamCapture from "./Screenshot"
 import Video from "./Video"
 import Blobby from "./Blob"
+import mainMenu from "./mainMenu"
+import translation from "./translation"
+
 
 function App() {
   const [response, setResponse] = useState("");
@@ -58,6 +62,21 @@ function App() {
 
   return (
     <div id="App">
+     <div class='maincontainer'>
+      <Switch>     
+        <Route exact path="/" component={mainMenu}>
+        </Route>
+        <Route exact path="/translation/" component={translation} />
+
+      </Switch>
+      </div>     
+    </div>
+  );
+}
+
+export default App;
+
+/*
       <h1>{response}</h1>
       <h1>{}</h1>
       <button onClick={changeMode}>Switch Mode</button>      
@@ -70,9 +89,4 @@ function App() {
           <Blobby props={response.data} />
         </div>
       }
-    </div>
-
-  );
-}
-
-export default App;
+*/
