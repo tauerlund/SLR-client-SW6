@@ -1,23 +1,18 @@
 import React, { useEffect } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
-import { SyncLoader } from "react-spinners";
-import Countdown from "./countdown";
-import CountdownCapture from "./countdownCapture"
+import { SyncLoader, BarLoader, MoonLoader } from "react-spinners";
 
-const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
+
+const WebcamTimed = ({ frameRate, width, height }) => {
   const webcamRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
   const [buffer, setBuffer] = React.useState([]);
+
   const [intervalId, setIntervalId] = React.useState(0);
+
   const [label, setLabel] = React.useState("");
   const [classifying, setClassifying] = React.useState(false);
-
-  useEffect( () => {
-    setClassifying(false)
-  }, [Word]);
-
-  console.log(Word)
 
   const videoConstraints = {
     width: width,
@@ -43,22 +38,16 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
   };
 
   const stopCapture = async () => {
-    // Reset states   
-    clearInterval(intervalId);    
-    setClassifying(true);
+    clearInterval(intervalId);
     setCapturing(false);
+
     // Send frames to backend
+    setClassifying(true);
     axios.post("http://localhost:5000/classify", buffer).then((res) => {
-      setClassifying(false);
       console.log(res.data);
+      setClassifying(false);
       setLabel(res.data);
       setBuffer([]);
-      // Is the word correct?
-      if(Word.name == Word.name){
-        SetResult("Success")  
-      } else {
-        SetResult("Wrong")
-    }
     });
   };
 
@@ -70,6 +59,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
         </button>
       );
     }
+
     return capturing ? (
       <button onClick={stopCapture} className="btn btn-danger">
         Stop capturing
@@ -81,17 +71,12 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
     );
   };
 
+  const webcamStyle = () => {
+    return capturing ? {} : {};
+  };
+
   return (
     <div className="container align-content-center">
-      
-        <Countdown setCapturing={setCapturing} startCapture={startCapture} Word={Word} />         
-        {capturing ? 
-          <div>
-            <CountdownCapture startTimer={10} setCapturing={setCapturing} capturing={capturing} stopCapture={stopCapture} Word={Word} /> 
-            <h1>Recording</h1>
-          </div>        
-        : null}          
-      
       <Webcam
         className="card mt-3"
         audio={false}
@@ -103,11 +88,10 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
       />
       <div className="mt-3 mb-3">{getButton()}</div>
       <div>
-        {classifying ? <h3>You signed: {label}</h3> : null}
-        <SyncLoader loading={classifying} /> 
+        {classifying ? <SyncLoader loading={true} /> : <h1>{label}</h1>}
       </div>
     </div>
   );
 };
 
-export default WebcamHandler;
+export default WebcamTimed;
