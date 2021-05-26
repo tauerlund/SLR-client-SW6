@@ -43,7 +43,7 @@ const WebcamTimed = ({ frameRate, width, height }) => {
 
     // Send frames to backend
     setClassifying(true);
-    axios.post("http://localhost:5000/classify", buffer).then((res) => {
+    axios.post("http://localhost:5000/recognize", buffer).then((res) => {
       console.log(res.data);
       setClassifying(false);
       setLabel(res.data);

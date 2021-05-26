@@ -48,13 +48,14 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
     setClassifying(true);
     setCapturing(false);
     // Send frames to backend
-    axios.post("http://localhost:5000/classify", buffer).then((res) => {
+    axios.post("http://localhost:5000/recognize", buffer).then((res) => {
       setClassifying(false);
       console.log(res.data);
+      console.log(Word.name)
       setLabel(res.data);
       setBuffer([]);
       // Is the word correct?
-      if(Word.name == Word.name){
+      if(res.data == Word.name){
         SetResult("Success")  
       } else {
         SetResult("Wrong")
