@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import QuizHandler from "./QuizHandler";
-import {Button} from 'react-bootstrap'
+import {Button, Alert} from 'react-bootstrap'
 
 const Quiz = () => {
   const [startQuiz, setStartQuiz] = useState(false);
   const [words, setWords] = useState(null);
   const [signs, setSigns] = useState([]);
+  const [validateAlert, SetValidateAlert] = useState(false);
+  
 
 
   useEffect(() => {
@@ -24,8 +26,6 @@ const Quiz = () => {
     setWords(Signs)
   }
 
-
-
   const addSign = (word) => {
     console.log(word.target.value)
     const newSigns = signs.slice();
@@ -34,8 +34,17 @@ const Quiz = () => {
     })
     newSigns.push(newSign[0]);
     setSigns(newSigns);
-} 
+  } 
 
+  const validateQuiz = () => {
+    console.log("Hej")
+    if(Object.keys(signs).length >= 2){
+      setStartQuiz(true)
+    } else {
+      SetValidateAlert(true)
+    }
+  }
+  
 
   if (words === null) {
     return <>Still loading...</>;
@@ -57,7 +66,14 @@ const Quiz = () => {
                     </label>
               </div>
               )}
-              <Button onClick={() => setStartQuiz(true)}>Start Quiz</Button>      
+
+              { validateAlert == true ?
+                  <Alert variant="danger" >
+                    <Alert.Heading>You have to select two signs to start the quiz!</Alert.Heading>
+                  </Alert> 
+                : null
+              }
+              <Button onClick={() => validateQuiz()}>Start Quiz</Button>      
             </div>                
          }
         </div>

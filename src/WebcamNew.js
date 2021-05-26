@@ -4,8 +4,6 @@ import axios from "axios";
 
 import { SyncLoader, BarLoader, MoonLoader } from "react-spinners";
 
-import { useOpenCv } from "opencv-react";
-
 const WebcamNew = ({ frameRate, width, height }) => {
   const webcamRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);

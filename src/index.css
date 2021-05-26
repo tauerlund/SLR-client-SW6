@@ -45,7 +45,12 @@ body {
 }
 
 .cardAnimation[wobble='1'] {
-  animation: wobble 1.5s;
+  animation: wobble 1s;
+}
+
+.cardAnimation[turn='0'] {
+  background-color: #0178cd;
+  animation-fill-mode: forwards;
 }
 
 .cardAnimation[turn='1'] {
@@ -92,11 +97,14 @@ body {
   25% {
     transform: translateY(-50) rotate(15deg);
   }
-  50% {
+  35% {
     transform: translateY(-200px) rotate(-30deg);
   }
+  50% {
+    transform: translateY(-400px) rotate(-30deg);
+  }
   65% {
-    transform: translateY(-1200px) rotate(-50deg);
+    transform: translateY(-1400px) rotate(-50deg);
   }
   75% {
     transform: translateY(-400px) rotate(-45deg);

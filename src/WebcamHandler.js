@@ -8,19 +8,18 @@ import { ProgressBar } from 'react-bootstrap';
 import "flip-card-wc";
 
 
-const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, setIsClassifying }) => {
+const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, setIsClassifying, isClassifying }) => {
   const webcamRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
   const [buffer, setBuffer] = React.useState([]);
   const [intervalId, setIntervalId] = React.useState(0);
   const [label, setLabel] = React.useState("");
-  const [classifying, setClassifying] = React.useState(false);
 
   useEffect( () => {
-    setClassifying(false)
+    setTurn(0)
+    setIsClassifying(false)
+    SetResult(null)
   }, [Word]);
-
-  console.log(Word)
 
   const videoConstraints = {
     width: width,
@@ -47,14 +46,14 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
   const stopCapture = async () => {
     // Reset states   
     clearInterval(intervalId);    
-    setClassifying(true);
+    setIsClassifying(true);
     setCapturing(false);
-    setIsClassifying(true)
-    // Send frames to backend
+    
+    // Send frames to backend  
+    console.log(Word.name)
+    setBuffer([]);
+    //setIsClassifying(false);
     axios.post("http://localhost:5000/recognize", buffer).then((res) => {
-      setClassifying(false);
-      console.log(res.data);
-      console.log(Word.name)
       setLabel(res.data);
       setBuffer([]);
       // Is the word correct?
@@ -66,25 +65,6 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
         setTurn(2)
     }
     });
-  };
-
-  const getButton = () => {
-    if (classifying) {
-      return (
-        <button className="btn btn-secondary" disabled={true}>
-          Classifying
-        </button>
-      );
-    }
-    return capturing ? (
-      <button onClick={stopCapture} className="btn btn-danger">
-        Stop capturing
-      </button>
-    ) : (
-      <button onClick={startCapture} className="btn btn-success">
-        Start capturing
-      </button>
-    );
   };
 
   return (
@@ -109,15 +89,17 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
           </div>        
         : 
         <div>
-          <ProgressBar animated  />
+         
         </div>
         }   
       
-      
       <div className="whiteText">
         <br></br>
-        {classifying ? <h3>You signed: {label}</h3> : null}
-        <SyncLoader loading={classifying} color="white" /> 
+        {isClassifying ? <div>
+        <ProgressBar animated variant="success" now={100} label={`${100}%`} />
+        <h3>You signed: {label}</h3></div> : null}
+
+        <SyncLoader loading={isClassifying} color="white" /> 
       </div>
     </div>
   );

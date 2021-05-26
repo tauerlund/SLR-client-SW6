@@ -12,7 +12,7 @@ const QuizHandler = ({signs}) => {
   }, []);
 
   const updateWord = async (result) => {
-    console.log(result)
+    console.log("Updating the word")
     
     // If guess was correct we update the status of the card
     if(result == "Success"){
@@ -20,27 +20,35 @@ const QuizHandler = ({signs}) => {
       const newWords = [... Words];
       const status = newWords[CurrentWord].status + 1;
       newWords[CurrentWord].status = status;  
+      
       // Remove if learned
       if(newWords[CurrentWord].status == 2) {
         const newWords = Words.filter((word) => word.name !== Words[CurrentWord].name);
         setWords(newWords);
+        console.log("Removed a word...")
       } else {
+        console.log("Updating words..")
         setWords(newWords);
+        increment()
       }
+    }else{
+        increment()
     }
 
-    // Find next card
+    // If last card
     if(CurrentWord >= (Object.keys(Words).length - 1)) {
       // Reached the end of the list, start from the beginning
-      console.log(0)
+      console.log("Go the back")
       setCurrentWord(0)
     } 
-    else {
+
+  }
+
+  const increment = () => {
       // Get next card
       const increment = CurrentWord + 1
-      console.log(CurrentWord + 1)
+      console.log("Increment: ", CurrentWord + 1)
       setCurrentWord(increment)
-    }
   }
 
   const assignWords = async () => {
