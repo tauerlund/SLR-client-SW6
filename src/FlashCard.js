@@ -1,25 +1,39 @@
 import React, { useState, useEffect, Fragment } from "react";
 import LearningVideo from "./LearningVideo"
 import WebcamHandler from "./WebcamHandler"
+import {Card, Button} from 'react-bootstrap'
 
 
 const FlashCard = (props) => {    
   const [Result, SetResult] = useState(null);
+  const [isClassyfing, setIsClassifying] = React.useState(false);
+  const [wobble, setWobble] = React.useState(0)
+  const [turn, setTurn] = React.useState(0)
 
   const nextCard = () => {
      props.updateWord(Result)
      SetResult(null)
+     setWobble(1)
   }
 
+
   return (
-        <div>
-           <WebcamHandler frameRate={30} width={1920} height={1080} SetResult={SetResult} Word={props.Word} />
+    <Card style={{ width: '39rem', height: '50rem' }} className="text-center" 
+      className="cardAnimation" onClick={() => setTurn(1)}
+      onAnimationEnd={() => setWobble(0)}
+      wobble={wobble}
+      turn={turn}> 
+    <WebcamHandler frameRate={30} width={1920} height={1080} SetResult={SetResult} Word={props.Word} setTurn={setTurn} setIsClassifying={setIsClassifying} />
+    <Card.Body>
+    <Card.Text>
+          <div className="whiteText">
           {props.Word.status == 0 ? 
             // Display learning video and do the sign                      
             <Fragment>
                 {Result == "Success" ? null : 
                     <div>
-                        <h1>Do the sign ({props.Word.name}) according to the video!</h1>
+                        <br></br>
+                         { isClassyfing == false ? <h4>Do the sign ({props.Word.name}) according to the below video!</h4> : <h4>Looking at your answer..</h4> }
                         <LearningVideo />
                     </div>
                 }               
@@ -43,7 +57,12 @@ const FlashCard = (props) => {
                 {Result == "Wrong" ? <div><h1>Wrong</h1><button onClick={nextCard}>Next</button></div> : null}
             </Fragment>           
           }
-        </div>
+    </div>
+    </Card.Text>
+    </Card.Body>
+    </Card>
+
+    
   );
 };
 

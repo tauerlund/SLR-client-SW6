@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
-import { SyncLoader } from "react-spinners";
+import { SyncLoader, ScaleLoader } from "react-spinners";
 import Countdown from "./countdown";
 import CountdownCapture from "./countdownCapture"
+import { ProgressBar } from 'react-bootstrap';
+import "flip-card-wc";
 
-const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
+
+const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, setIsClassifying }) => {
   const webcamRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
   const [buffer, setBuffer] = React.useState([]);
@@ -27,7 +30,6 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
 
   const startCapture = () => {
     console.log(buffer);
-
     setCapturing(true);
     const interval = setInterval(() => {
       const frame = webcamRef.current.getScreenshot({
@@ -47,6 +49,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
     clearInterval(intervalId);    
     setClassifying(true);
     setCapturing(false);
+    setIsClassifying(true)
     // Send frames to backend
     axios.post("http://localhost:5000/recognize", buffer).then((res) => {
       setClassifying(false);
@@ -56,9 +59,11 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
       setBuffer([]);
       // Is the word correct?
       if(res.data == Word.name){
-        SetResult("Success")  
+        SetResult("Success")
+        setTurn(1)  
       } else {
         SetResult("Wrong")
+        setTurn(2)
     }
     });
   };
@@ -84,15 +89,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
 
   return (
     <div className="container align-content-center">
-      
-        <Countdown setCapturing={setCapturing} startCapture={startCapture} Word={Word} />         
-        {capturing ? 
-          <div>
-            <CountdownCapture startTimer={10} setCapturing={setCapturing} capturing={capturing} stopCapture={stopCapture} Word={Word} /> 
-            <h1>Recording</h1>
-          </div>        
-        : null}          
-      
+             
       <Webcam
         className="card mt-3"
         audio={false}
@@ -102,10 +99,25 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word }) => {
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
       />
-      <div className="mt-3 mb-3">{getButton()}</div>
-      <div>
+      
+      <br></br>      
+      <Countdown setCapturing={setCapturing} startCapture={startCapture} Word={Word} />         
+        {capturing ? 
+          <div>
+            <CountdownCapture startTimer={10} setCapturing={setCapturing} capturing={capturing} stopCapture={stopCapture} Word={Word} /> 
+            <h1 className="whiteText">Recording</h1><ScaleLoader color="white" />
+          </div>        
+        : 
+        <div>
+          <ProgressBar animated  />
+        </div>
+        }   
+      
+      
+      <div className="whiteText">
+        <br></br>
         {classifying ? <h3>You signed: {label}</h3> : null}
-        <SyncLoader loading={classifying} /> 
+        <SyncLoader loading={classifying} color="white" /> 
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FlashCard from "./FlashCard"
+import FlashCard from "./FlashCard";
 
 const QuizHandler = ({signs}) => {
   const [Words, setWords] = useState(null);
@@ -51,7 +51,7 @@ const QuizHandler = ({signs}) => {
   if (Words === null) {
       return <>Still loading...</>;
   }else{
-    if(Object.keys(Words).length != 0) {
+    if(Object.keys(Words).length != 0) {      
       return <FlashCard Word={Words[CurrentWord]} updateWord={updateWord} />;
     }else{
       return <h1>You finshed the quiz!</h1>

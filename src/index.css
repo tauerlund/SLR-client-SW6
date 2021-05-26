@@ -1,12 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Josefin Sans', Light 300;
+  background-color: #9dcef2;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.whiteText {
+  color: white;
+}
+
+.logoText {
+  color: #ffb04f;
+  padding: 10px;
+}
+
+.checkbox-wrapper {
+  white-space: nowrap;
+}
+
+.checkboxes {
+  width: 30px;
+  height: 30px;
+  margin: 15px;
+  vertical-align: top;
+  display: inline-block;
+}
+.checkbox-label {
+  white-space: normal;
+  display: inline-block;
+}
+
+.color-nav {
+  background-color: #0178cd;
+  color: aliceblue;
+}
+
+.cardAnimation {
+  margin: 0 auto; /* to make the div center align to the browser */
+  padding: 0px;
+  width: 520px; /* set it to anything */
+  text-align: center;
+  background-color: #0178cd;
+  transform-style: preserve-3d;
+}
+
+.cardAnimation[wobble='1'] {
+  animation: wobble 1.5s;
+}
+
+.cardAnimation[turn='1'] {
+  animation: turnGreen 1s linear;
+  animation-fill-mode: forwards;
+}
+
+.cardAnimation[turn='2'] {
+  animation: turnRed 1s linear;
+  animation-fill-mode: forwards;
+}
+
+.number {
+  margin: auto;
+  width: 50px;
+  height: 80px;
+  color: white;
+}
+
+.number[animation='1'] {
+  animation: numberAnimation 0.6s;
+  overflow: hidden;
+}
+
+@keyframes numberAnimation {
+  0% {
+    transform: rotate(0deg) scale(2);
+  }
+  100% {
+    transform: rotate(-35deg) scale(8);
+  }
+}
+
+@keyframes turn {
+  0% {
+  }
+  100% {
+    transform: rotateY(0deg);
+    background-color: #275677;
+  }
+}
+
+@keyframes wobble {
+  25% {
+    transform: translateY(-50) rotate(15deg);
+  }
+  50% {
+    transform: translateY(-200px) rotate(-30deg);
+  }
+  65% {
+    transform: translateY(-1200px) rotate(-50deg);
+  }
+  75% {
+    transform: translateY(-400px) rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes turnGreen {
+  0% {
+  }
+  50% {
+    transform: rotateY(180deg);
+    background-color: #20da48;
+  }
+  100% {
+    transform: rotateY(0deg);
+    background-color: #1aaa39;
+  }
+}
+
+@keyframes turnRed {
+  0% {
+  }
+  50% {
+    transform: rotateY(180deg);
+    background-color: #ff3535;
+  }
+  100% {
+    transform: rotateY(0deg);
+    background-color: #b41c1c;
+  }
 }

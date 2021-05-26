@@ -17,7 +17,7 @@ const CountdownCapture = ({startTimer, setCapturing, stopCapture, Word}) => {
         let secondInterval = setInterval(() => {
         if (seconds > -0.1) {
             const procentage = (1 - (seconds / saveSeconds)) * 100 
-            setBar(procentage)                
+            setBar(procentage.toFixed(0))                
             setSeconds(seconds - 0.1);                
         }
         if (seconds <= 0) {
@@ -32,7 +32,7 @@ const CountdownCapture = ({startTimer, setCapturing, stopCapture, Word}) => {
 
     return (
         <div>
-            <ProgressBar animated now={bar} label={`${bar}%`} />
+            <ProgressBar animated variant={bar < 100 ? "warning" : "success" } now={bar} label={`${bar}%`} />            
         </div>
     )
 }

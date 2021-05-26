@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import {BrowserRouter} from 'react-router-dom';
 import WebcamNew from "./WebcamNew";
-import Navbar from "./Navbar";
+import NavbarLinks from "./Navbar";
 import Quiz from "./Quiz";
 import {
   BrowserRouter as Router,
@@ -15,7 +15,7 @@ import {
 
 ReactDOM.render(
     <BrowserRouter>
-    <Navbar />
+    <NavbarLinks />
     <div className="container mt-2" style={{ marginTop: 40 }}>
       <Switch>
         <Route exact path="/">

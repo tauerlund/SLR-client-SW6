@@ -1,33 +1,33 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import {Navbar, Nav} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
 
-const Navbar = () => {
-  const [isOpen, setOpen] = useState(false);
+const NavbarLinks = () => {
+  
   return (
 
     <div>
-            <NavLink className="navbar-item" activeClassName="is-active" to="/">
-              Home
-            </NavLink>
-
-            <NavLink
-              className="navbar-item"
-              activeClassName="is-active"
-              to="/translation"
-            >
-              Translation
-            </NavLink>
-
-            <NavLink
-              className="navbar-item"
-              activeClassName="is-active"
-              to="/quiz"
-            >
-              Quiz
-            </NavLink>
+      <Navbar className="color-nav" expand="lg">
+        <LinkContainer to="/">
+        <Navbar.Brand><h5 className="logoText">Danish Sign Language Translation & Learning</h5></Navbar.Brand>
+        </LinkContainer>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+          <LinkContainer to="/">
+            <Nav.Link><h5 className="whiteText">Home</h5></Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/translation">
+            <Nav.Link><h5 className="whiteText">Translation</h5></Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/Quiz">
+            <Nav.Link><h5 className="whiteText">Quiz</h5></Nav.Link>
+            </LinkContainer>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </div>
-
   );
 };
 
-export default Navbar;
+export default NavbarLinks;
