@@ -19,6 +19,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
     setTurn(0)
     setIsClassifying(false)
     SetResult(null)
+    setLabel(null)
   }, [Word]);
 
   const videoConstraints = {
@@ -49,6 +50,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
     setIsClassifying(true);
     setCapturing(false);
     
+
     // Send frames to backend  
     console.log(Word.name)
     setBuffer([]);
@@ -88,19 +90,18 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
             <h1 className="whiteText">Recording</h1><ScaleLoader color="white" />
           </div>        
         : 
-        <div>
-         
-        </div>
+          null
         }   
       
       <div className="whiteText">
         <br></br>
-        {isClassifying ? <div>
-        <ProgressBar animated variant="success" now={100} label={`${100}%`} />
-        <h3>You signed: {label}</h3></div> : null}
-
-        <SyncLoader loading={isClassifying} color="white" /> 
-      </div>
+        {isClassifying ? 
+          <div>
+            <ProgressBar animated variant="success" now={100} label={`${100}%`} />
+            <h3>You signed: {label}</h3>
+            </div> : null}
+            <SyncLoader loading={isClassifying} color="white" /> 
+        </div>
     </div>
   );
 };

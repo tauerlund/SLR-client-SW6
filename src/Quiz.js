@@ -17,10 +17,11 @@ const Quiz = () => {
 
   const assignWords = async () => {
     const words = ["hej", "er", "spørge"]
+    const url = ["https://www.youtube.com/watch?v=-_T3-k8yJzw","https://www.youtube.com/watch?v=30_5jivy-38"]
     const time = [3, 3, 5] 
     var Signs = []; 
     for (var x = 0; x < words.length; x++) {
-      const signsInformation = {name: words[x], status: 0, time: time[x]};
+      const signsInformation = {name: words[x], status: 0, time: time[x], URL: url[0]};
       Signs.push(signsInformation)
     }
     setWords(Signs)

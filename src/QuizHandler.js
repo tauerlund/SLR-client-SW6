@@ -41,7 +41,7 @@ const QuizHandler = ({signs}) => {
       console.log("Go the back")
       setCurrentWord(0)
     } 
-
+    
   }
 
   const increment = () => {

@@ -38,16 +38,13 @@ const FlashCard = (props) => {
                           
                           <div> 
                             <h4>Do the sign ({props.Word.name}) according to the below video!</h4> 
-                            <LearningVideo />
-                          </div>
-                          
+                            <LearningVideo Word={props.Word} />
+                          </div>         
                           : 
                           <h4>Looking at your answer..</h4> 
                         }
                     </div>
-                }
-                
-                               
+                }                 
                 {Result === "Success" ? <div><h1>Success</h1><Button onClick={nextCard}>Next</Button></div> : null}
                 {Result === "Wrong" ?  <div><h1>Wrong!</h1><Button variant="dark" onClick={nextCard}>Next</Button></div> : null}
             </Fragment> 
