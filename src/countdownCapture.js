@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 
-const CountdownCapture = ({startTimer, setCapturing, stopCapture, Word}) => {
+const CountdownCapture = ({startTimer, setCapturing, stopCapture, Word, Tries}) => {
     const [seconds, setSeconds] =  useState(startTimer);
     const [saveSeconds, setSaveSeconds] =  useState(startTimer);
     const [bar, setBar] =  useState(0);
@@ -10,7 +10,7 @@ const CountdownCapture = ({startTimer, setCapturing, stopCapture, Word}) => {
         setSaveSeconds(Word.time)
         setSeconds(Word.time)
         setBar(0)
-    }, [Word]);
+    }, [Tries]);
 
 
     useEffect( () => {            

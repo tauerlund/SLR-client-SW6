@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactPlayer from 'react-player'
 
 
-const LearningVideo = ({Word}) => {    
-  console.log(Word.URL)
+const LearningVideo = ({Word}) => {
   return (
         <div className='player-wrapper'>
           <ReactPlayer

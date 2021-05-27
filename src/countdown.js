@@ -1,14 +1,12 @@
 import { React, useState, useEffect } from 'react';
 
-const Countdown = ({startTimer, setCapturing, startCapture, Word}) => {
+const Countdown = ({setCapturing, startCapture, Tries}) => {
     const [seconds, setSeconds] =  useState();    
     const [animation, setAnimation] =  useState();    
     
     useEffect( () => {
         setSeconds(5)
-    }, [Word]);
-    
-    
+    }, [Tries]);
 
     useEffect( () => {                
             let secondInterval = setInterval(() => {

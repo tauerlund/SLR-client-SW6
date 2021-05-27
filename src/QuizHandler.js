@@ -4,7 +4,7 @@ import FlashCard from "./FlashCard";
 const QuizHandler = ({signs}) => {
   const [Words, setWords] = useState(null);
   const [CurrentWord, setCurrentWord] = useState(0);
-  const [WordQueue, setWordQueue] = useState(null)
+  const [Tries, setTries] = useState(0)
 
   useEffect(() => {
     // Insert words to learn
@@ -12,42 +12,37 @@ const QuizHandler = ({signs}) => {
   }, []);
 
   const updateWord = async (result) => {
-    console.log("Updating the word")
-    
     // If guess was correct we update the status of the card
     if(result == "Success"){
       // Update card status;
       const newWords = [... Words];
       const status = newWords[CurrentWord].status + 1;
-      newWords[CurrentWord].status = status;  
+      newWords[CurrentWord].status = status;
       
       // Remove if learned
       if(newWords[CurrentWord].status == 2) {
         const newWords = Words.filter((word) => word.name !== Words[CurrentWord].name);
         setWords(newWords);
-        console.log("Removed a word...")
       } else {
-        console.log("Updating words..")
         setWords(newWords);
-        increment()
+        increment();
       }
-    }else{
-        increment()
+    } else {
+      increment();
     }
 
     // If last card
     if(CurrentWord >= (Object.keys(Words).length - 1)) {
       // Reached the end of the list, start from the beginning
-      console.log("Go the back")
       setCurrentWord(0)
     } 
-    
+    const newTries = Tries + 1
+    setTries(newTries)
   }
 
   const increment = () => {
       // Get next card
       const increment = CurrentWord + 1
-      console.log("Increment: ", CurrentWord + 1)
       setCurrentWord(increment)
   }
 
@@ -60,9 +55,9 @@ const QuizHandler = ({signs}) => {
       return <>Still loading...</>;
   }else{
     if(Object.keys(Words).length != 0) {      
-      return <FlashCard Word={Words[CurrentWord]} updateWord={updateWord} />;
+      return <FlashCard Word={Words[CurrentWord]} Tries={Tries} updateWord={updateWord} />;
     }else{
-      return <h1>You finshed the quiz!</h1>
+      return <h1 className="whiteText">You finished the quiz!</h1>
     }
   }
 

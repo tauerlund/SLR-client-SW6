@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Webcam from "react-webcam";
 import axios from "axios";
-
-import { SyncLoader, BarLoader, MoonLoader } from "react-spinners";
+import { SyncLoader } from "react-spinners";
 
 const WebcamNew = ({ frameRate, width, height }) => {
   const webcamRef = React.useRef(null);
@@ -21,8 +20,6 @@ const WebcamNew = ({ frameRate, width, height }) => {
   };
 
   const startCapture = () => {
-    console.log(buffer);
-
     setCapturing(true);
     const interval = setInterval(() => {
       const frame = webcamRef.current.getScreenshot({
@@ -32,7 +29,6 @@ const WebcamNew = ({ frameRate, width, height }) => {
       let tempBuffer = buffer;
       tempBuffer.push(frame);
       setBuffer(tempBuffer);
-      console.log("Saving frame.");
     }, 1000 / frameRate);
     setIntervalId(interval);
   };
@@ -43,8 +39,7 @@ const WebcamNew = ({ frameRate, width, height }) => {
 
     // Send frames to backend
     setClassifying(true);
-    axios.post("http://localhost:5000/classify", buffer).then((res) => {
-      console.log(res.data);
+    axios.post("http://localhost:5000/recognize", buffer).then((res) => {
       setClassifying(false);
       setLabel(res.data);
       setBuffer([]);

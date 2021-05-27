@@ -5,7 +5,6 @@ import {LinkContainer} from 'react-router-bootstrap'
 const NavbarLinks = () => {
   
   return (
-
     <div>
       <Navbar className="color-nav" expand="lg">
         <LinkContainer to="/">

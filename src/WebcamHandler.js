@@ -8,7 +8,7 @@ import { ProgressBar } from 'react-bootstrap';
 import "flip-card-wc";
 
 
-const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, setIsClassifying, isClassifying }) => {
+const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, setIsClassifying, isClassifying, Tries }) => {
   const webcamRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
   const [buffer, setBuffer] = React.useState([]);
@@ -19,8 +19,9 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
     setTurn(0)
     setIsClassifying(false)
     SetResult(null)
+    setCapturing(false)
     setLabel(null)
-  }, [Word]);
+  }, [Tries]);
 
   const videoConstraints = {
     width: width,
@@ -29,7 +30,6 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
   };
 
   const startCapture = () => {
-    console.log(buffer);
     setCapturing(true);
     const interval = setInterval(() => {
       const frame = webcamRef.current.getScreenshot({
@@ -39,7 +39,6 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
       let tempBuffer = buffer;
       tempBuffer.push(frame);
       setBuffer(tempBuffer);
-      console.log("Saving frame.");
     }, 1000 / frameRate);
     setIntervalId(interval);
   };
@@ -49,12 +48,9 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
     clearInterval(intervalId);    
     setIsClassifying(true);
     setCapturing(false);
-    
 
-    // Send frames to backend  
-    console.log(Word.name)
+    // Send frames to backend
     setBuffer([]);
-    //setIsClassifying(false);
     axios.post("http://localhost:5000/recognize", buffer).then((res) => {
       setLabel(res.data);
       setBuffer([]);
@@ -83,13 +79,13 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
       />
       
       <br></br>      
-      <Countdown setCapturing={setCapturing} startCapture={startCapture} Word={Word} />         
+      <Countdown setCapturing={setCapturing} startCapture={startCapture} Word={Word} Tries={Tries} />
         {capturing ? 
           <div>
-            <CountdownCapture startTimer={10} setCapturing={setCapturing} capturing={capturing} stopCapture={stopCapture} Word={Word} /> 
+            <CountdownCapture startTimer={10} setCapturing={setCapturing} capturing={capturing} stopCapture={stopCapture} Word={Word} Tries={Tries} />
             <h1 className="whiteText">Recording</h1><ScaleLoader color="white" />
           </div>        
-        : 
+          :
           null
         }   
       
@@ -100,7 +96,7 @@ const WebcamHandler = ({ frameRate, width, height, SetResult, Word, setTurn, set
             <ProgressBar animated variant="success" now={100} label={`${100}%`} />
             <h3>You signed: {label}</h3>
             </div> : null}
-            <SyncLoader loading={isClassifying} color="white" /> 
+            <SyncLoader loading={isClassifying} color="white" />
         </div>
     </div>
   );

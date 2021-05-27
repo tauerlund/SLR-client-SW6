@@ -9,6 +9,7 @@ const FlashCard = (props) => {
   const [isClassifying, setIsClassifying] = React.useState(false);
   const [wobble, setWobble] = React.useState(0)
   const [turn, setTurn] = React.useState(0)
+  const [tries, setTries] = React.useState(0)
 
   const nextCard = () => {
      props.updateWord(Result)
@@ -16,14 +17,16 @@ const FlashCard = (props) => {
      setWobble(1)
   }
 
-
+  useEffect(() => {
+    setTries(props.Tries)
+  },[props.Tries])
 
   return (
     <Card style={{ width: '39rem', height: '50rem' }} className="text-center" 
       className="cardAnimation" onClick={() => setWobble(1)}
       wobble={wobble}
-      turn={turn}> 
-    <WebcamHandler frameRate={30} width={1920} height={1080} SetResult={SetResult} Word={props.Word} setTurn={setTurn} setIsClassifying={setIsClassifying} isClassifying={isClassifying} />
+      turn={turn}>
+    <WebcamHandler Tries={tries} frameRate={30} width={1920} height={1080} SetResult={SetResult} Word={props.Word} setTurn={setTurn} setIsClassifying={setIsClassifying} isClassifying={isClassifying} />
     <Card.Body>
     <Card.Text>
           <div className="whiteText">
@@ -37,7 +40,7 @@ const FlashCard = (props) => {
                         { isClassifying == false ? 
                           
                           <div> 
-                            <h4>Do the sign ({props.Word.name}) according to the below video!</h4> 
+                            <h4>Do the sign ({props.Word.name}) according to the video below!</h4>
                             <LearningVideo Word={props.Word} />
                           </div>         
                           : 
@@ -54,7 +57,6 @@ const FlashCard = (props) => {
                 {Result == "Wrong" ? 
                     <div>
                         <h1>You signed {props.Word.name} wrong.</h1>
-                        <button onClick={nextCard}>Next</button>    
                     </div>
                     : <h1>Perform the sign: {props.Word.name}</h1>
                 }

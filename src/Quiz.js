@@ -7,8 +7,6 @@ const Quiz = () => {
   const [words, setWords] = useState(null);
   const [signs, setSigns] = useState([]);
   const [validateAlert, SetValidateAlert] = useState(false);
-  
-
 
   useEffect(() => {
     assignWords()
@@ -16,19 +14,25 @@ const Quiz = () => {
 
 
   const assignWords = async () => {
-    const words = ["hej", "er", "spørge"]
-    const url = ["https://www.youtube.com/watch?v=-_T3-k8yJzw","https://www.youtube.com/watch?v=30_5jivy-38"]
-    const time = [3, 3, 5] 
+    const words = ["hej", "er", "spørge", "farvel", "hvorfor", "du", "træt", "jeg"]
+    const url = ["https://www.youtube.com/watch?v=-_T3-k8yJzw",
+                 "https://www.youtube.com/watch?v=30_5jivy-38",
+                 "https://www.youtube.com/watch?v=B03FgHt5iR0",
+                 "https://www.youtube.com/watch?v=w5naJVF5Chc",
+                 "https://www.youtube.com/watch?v=GRFV0I34Oac",
+                 "https://www.youtube.com/watch?v=MDhHjQDOgB0",
+                 "https://www.youtube.com/watch?v=q-8eu36nTmQ",
+                 "https://www.youtube.com/watch?v=RfQRvGEAxxI"]
+    const time = [4, 4, 4, 4, 4, 4, 4, 4]
     var Signs = []; 
     for (var x = 0; x < words.length; x++) {
-      const signsInformation = {name: words[x], status: 0, time: time[x], URL: url[0]};
+      const signsInformation = {name: words[x], status: 0, time: time[x], URL: url[x]};
       Signs.push(signsInformation)
     }
     setWords(Signs)
   }
 
   const addSign = (word) => {
-    console.log(word.target.value)
     const newSigns = signs.slice();
     const newSign = words.filter((element) => {
       return element.name === word.target.value;
@@ -38,7 +42,6 @@ const Quiz = () => {
   } 
 
   const validateQuiz = () => {
-    console.log("Hej")
     if(Object.keys(signs).length >= 2){
       setStartQuiz(true)
     } else {
@@ -56,9 +59,9 @@ const Quiz = () => {
           {startQuiz ? <QuizHandler signs={signs} /> :       
           
           <div>
-            <h1>You are about to learn Danish sign language!</h1>
+            <h1>You are about to learn Danish Sign Language!</h1>
             <br></br><br></br><br></br>
-            <h2>List of signs in the quiz:</h2>            
+            <h2>Choose the signs to include in the quiz:</h2>
             { words.map((i) => 
               <div class="pretty p-icon p-round p-jelly" >
                   <input type="checkbox" id={i.name} className="checkboxes" onChange={addSign} value={i.name} />
@@ -80,7 +83,6 @@ const Quiz = () => {
         </div>
     );    
   }
-
 };
 
 export default Quiz;
